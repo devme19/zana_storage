@@ -75,7 +75,7 @@ class CustomerModel extends CustomerEntity{
 }
 class Debit {
     int currency_id;
-    double price;
+    String price;
     String symbol;
 
     Debit({this.currency_id, this.price, this.symbol});

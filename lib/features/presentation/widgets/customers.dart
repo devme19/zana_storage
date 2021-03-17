@@ -152,16 +152,28 @@ class _CustomersState extends State<Customers> {
                                         child:
                                           InkWell(
                                             child: Container(
+                                              height: 80,
                                               child: 
                                               Row(
                                                 children: [
-                                                  Column(
-                                                    children: [
-                                                      Text(customerController.customers[index].name+" "+ customerController.customers[index].family,),
-                                                      widget.isCustomerPage? Text(customerController.customers[index].mobile):Container(),
-                                                    ],
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Expanded(child: Row(
+                                                          children: [
+                                                            Text(customerController.customers[index].name+" "+ customerController.customers[index].family,style: TextStyle(fontWeight: FontWeight.bold),),
+                                                          ],
+                                                        )),
+                                                        Expanded(child: widget.isCustomerPage? Row(
+                                                          children: [
+                                                            Text(customerController.customers[index].mobile,textAlign: TextAlign.start,),
+                                                          ],
+                                                        ):Container()),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  Column(children: createDebit(index))
+                                                  Expanded(child: Column(
+                                                      children: createDebit(index)))
                                                 ],
                                               ),
                                             ),
@@ -236,7 +248,7 @@ class _CustomersState extends State<Customers> {
   List<Widget> createDebit(int index){
     List<Widget> list = new List();
     for(var item in customerController.customers[index].debit)
-      list.add(Text(item.price.toString() +item.symbol));
+      list.add(Expanded(child: Text(item.price.toString() +item.symbol)));
     return list;
   }
   clearFilter() {
