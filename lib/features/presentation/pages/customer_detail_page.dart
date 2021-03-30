@@ -9,7 +9,9 @@ import 'package:zana_storage/features/presentation/controllers/customer_controll
 // ignore: must_be_immutable
 class CustomerDetailPage extends StatefulWidget {
   CustomerEntity customerEntity;
-  CustomerDetailPage({this.customerEntity});
+  CustomerDetailPage(){
+    customerEntity = Get.arguments;
+  }
 
   @override
   _CustomerDetailPageState createState() => _CustomerDetailPageState();

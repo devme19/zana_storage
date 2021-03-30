@@ -51,7 +51,7 @@ class ZanaStorage{
     GetPage(name: ZanaStorageRoutes.settingPage, page: () => SettingPage(),binding: SettingBinding()),
     GetPage(name: ZanaStorageRoutes.customerPage, page: () => CustomerPage(),binding: CustomerBinding()),
     GetPage(name: ZanaStorageRoutes.addCustomerPage, page: () => AddCustomerPage(),binding: CustomerBinding()),
-    GetPage(name: ZanaStorageRoutes.customerDetailPage, page: () => CustomerDetailPage()),
+    GetPage(name: ZanaStorageRoutes.customerDetailPage, page: () => CustomerDetailPage(),binding: CustomerBinding()),
     GetPage(name: ZanaStorageRoutes.invoicesPage, page: () => InvoicesPage(),binding: InvoiceBinding()),
     GetPage(name: ZanaStorageRoutes.invoiceDetailPage, page: () => InvoiceDetailPage(),bindings: [InvoiceBinding()]),
     GetPage(name: ZanaStorageRoutes.productsPage, page: () => ProductsPage(),binding: ProductBiding()),

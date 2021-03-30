@@ -36,10 +36,10 @@ class InvoiceController extends GetxController{
       }
     });
   }
-  getInvoices(int pageIndex,int pageSize){
+  getInvoices(String param){
    getInvoicesState.value = StateStatus.LOADING;
     GetInvoicesUseCase getInvoicesUseCase = Get.find();
-    getInvoicesUseCase.call(Params(body: "page=$pageIndex&pagesize=$pageSize")).then((response){
+    getInvoicesUseCase.call(Params(body: param)).then((response){
       if(response.isRight) {
         getInvoicesState.value = StateStatus.SUCCESS;
         invoiceTable.value = response.right;

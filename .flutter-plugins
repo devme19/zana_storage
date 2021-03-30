@@ -12,3 +12,4 @@ path_provider_macos=/home/devme/Downloads/flutter_linux_1.22.4-stable/flutter/.p
 path_provider_windows=/home/devme/Downloads/flutter_linux_1.22.4-stable/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+3/
 permission_handler=/home/devme/Downloads/flutter_linux_1.22.4-stable/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-5.0.1+1/
 qrscan=/home/devme/Downloads/flutter_linux_1.22.4-stable/flutter/.pub-cache/hosted/pub.dartlang.org/qrscan-0.2.21/
+sqflite=/home/devme/Downloads/flutter_linux_1.22.4-stable/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-1.3.2+4/

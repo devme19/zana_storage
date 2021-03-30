@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,11 @@ class _ManageProductPageState extends State<ManageProductPage> {
   int pageIndex = 1;
   String parameters;
   ScrollController _controller = ScrollController();
+  ScrollController _mainController = ScrollController();
   String productName ="";
+  _mainScrollListener() {
+
+  }
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
@@ -52,6 +57,20 @@ class _ManageProductPageState extends State<ManageProductPage> {
       // setState(() {
       //   message = "reach the bottom";
       // });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      _mainController.animateTo(
+          _mainController.position.minScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.fastOutSlowIn);
+    }
+    if (_controller.position.userScrollDirection ==
+        ScrollDirection.reverse){
+      _mainController.animateTo(
+          _mainController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.fastOutSlowIn);
     }
     // if (_controller.offset <= _controller.position.minScrollExtent &&
     //     !_controller.position.outOfRange) {
@@ -109,14 +128,14 @@ class _ManageProductPageState extends State<ManageProductPage> {
         ),
       ),
       body:
-      Obx(()=>Column(children: [
-        Expanded(
-          flex: 6,
-          child:
+      Obx(()=>SingleChildScrollView(
+        controller: _mainController,
+        child: Column(children: [
           Form(
             key: _formKey,
             child:
             Container(
+              height: 500,
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(borderRadius))
@@ -231,7 +250,8 @@ class _ManageProductPageState extends State<ManageProductPage> {
                           children: [
                             Expanded(
                               flex:2,
-                              child: RaisedButton(
+                              child:
+                              RaisedButton(
                                   padding: EdgeInsets.only(top: 20,bottom: 20),
                                   shape:RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(borderRadius),
@@ -252,11 +272,10 @@ class _ManageProductPageState extends State<ManageProductPage> {
                                     }
                                   },
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Expanded(flex:2,child: Text('Increase'.tr,textAlign: TextAlign.end,style: TextStyle(color: Colors.white),)),
-                                      Expanded(flex:1,child:
-                                      Icon(Icons.arrow_upward,size: 35,color: Colors.white,)
-                                      )
+                                      Text('Increase'.tr,textAlign: TextAlign.end,style: TextStyle(color: Colors.white),),
+                                      Icon(Icons.arrow_upward,color: Colors.white,)
                                     ],
                                   )
                               ),
@@ -307,9 +326,10 @@ class _ManageProductPageState extends State<ManageProductPage> {
                                     }
                                   },
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Expanded(flex:2,child: Text('Decrease'.tr,textAlign: TextAlign.end,style: TextStyle(color: Colors.white),)),
-                                      Expanded(flex:1,child: Icon(Icons.arrow_downward,size: 35,color: Colors.white,))
+                                      Text('Decrease'.tr,textAlign: TextAlign.end,style: TextStyle(color: Colors.white),),
+                                      Icon(Icons.arrow_downward,color: Colors.white,)
                                     ],
                                   )
                               ),
@@ -324,27 +344,25 @@ class _ManageProductPageState extends State<ManageProductPage> {
               ),
             ),
           ),
-        ),
-        Expanded(
-            flex: 4,
+          productController.productLogs.length!=0 || productController.manageProductLog.value.product !=null?Container(
+            margin: EdgeInsets.only(left: 16,right: 16,bottom: 16.0),
             child:
-            productController.productLogs.length!=0 ||productController.manageProductLog.value.product !=null?Container(
-              margin: EdgeInsets.only(left: 16,right: 16,bottom: 16.0),
-              child:
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(borderRadius))
-                ),
-                child: ListView(
-                    controller: _controller,
-                    children: createLogs(productController.manageProductLog.value)
-                ),
+            Container(
+              height: Get.height,
+              padding: EdgeInsets.only(left:16.0,right: 16.0),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(borderRadius))
               ),
-            ):Container()
-        )
+              child: ListView(
+                  controller: _controller,
+                  children: createLogs(productController.manageProductLog.value)
+              ),
+            ),
+          ):Container()
 
-      ],))
+        ],),
+      ))
 
     );
   }
@@ -369,61 +387,157 @@ class _ManageProductPageState extends State<ManageProductPage> {
     if(manageProduct.data != null && productController.flag.value){
       tempList2.addAll(manageList);
       manageList = new List();
-      manageList.add(Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: 1.0, color: Colors.grey.shade300),
-            // right: BorderSide(width: 1.0, color: Colors.grey.shade300),
-            // left: BorderSide(width: 1.0, color: Colors.grey.shade300),
-            // top: BorderSide(width: 1.0, color: Colors.grey.shade300),
-          )
-        ),
-        padding: const EdgeInsets.only(top:20.0,bottom: 20.0),
-        child:
 
-          Row(
-          children: [
-        Expanded(flex:4,child:
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left:16.0),
-              child: Text(manageProduct.data.created_at),
-            ),
-          ],
-        )),
-        Expanded(
-          flex: 1,
-          child:
-
-          Row(
-            children: [
-              Expanded(flex:3,child: Padding(
-                padding: const EdgeInsets.only(right:8.0),
-                child: Text(manageProduct.data.change_qty.toString(),textAlign: TextAlign.right,),
-              )),
-              Expanded(
-                flex:2,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: manageProduct.data.status == "1" ?Colors.green:Colors.red,
+      manageList.add(
+          Container(
+            height: 60,
+            decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 1.0, color: Colors.grey.shade300),
+                  // right: BorderSide(width: 1.0, color: Colors.grey.shade300),
+                  // left: BorderSide(width: 1.0, color: Colors.grey.shade300),
+                  // top: BorderSide(width: 1.0, color: Colors.grey.shade300),
+                )),
+            // padding: EdgeInsets.only(top: 20, bottom: 20),
+            child: Row(
+              children: [
+                Expanded(
+                    flex: 4,
+                    child: Row(
+                      children: [
+                        Text(manageProduct.data.created_at),
+                      ],
+                    )),
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right:8.0),
+                        child: Text(manageProduct.data.change_qty.toString(),textAlign: TextAlign.right,),
+                      ),
+                      Container(
+                        width: 35,
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: manageProduct.data.status == "1" ? Colors.green : Colors.red,
+                        ),
+                        child: Icon(
+                          manageProduct.data.status == "1"
+                              ? Icons.arrow_upward_rounded
+                              : Icons.arrow_downward_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                      // SizedBox(width: 24.0,)
+                    ],
                   ),
-                  margin: EdgeInsets.only(right: 8.0),
-
-                  child: Icon(manageProduct.data.status == "1"?Icons.arrow_upward_rounded:Icons.arrow_downward_rounded,color: Colors.white,),
                 ),
-              ),
+                // Expanded(
+                //     flex: 4,
+                //     child: Row(
+                //       children: [
+                //         Text(manageProduct.data.created_at),
+                //       ],
+                //     )),
+                // Expanded(
+                //   flex: 2,
+                //   child: Row(
+                //     children: [
+                //       Expanded(flex:3,child: Padding(
+                //         padding: const EdgeInsets.only(right:8.0),
+                //         child: Text(manageProduct.data.change_qty.toString(),textAlign: TextAlign.right,),
+                //       )),
+                //       Expanded(
+                //         flex: 2,
+                //         child:
+                //         Container(
+                //           width: 35,
+                //           padding: EdgeInsets.all(5.0),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(4),
+                //             color: manageProduct.data.status == "1" ? Colors.green : Colors.red,
+                //           ),
+                //           child: Icon(
+                //             manageProduct.data.status == "1"
+                //                 ? Icons.arrow_upward_rounded
+                //                 : Icons.arrow_downward_rounded,
+                //             color: Colors.white,
+                //           ),
+                //         ),
+                //       ),
+                //       // SizedBox(width: 24.0,)
+                //     ],
+                //   ),
+                // ),
 
 
-            ],
-          ),
-        )
-        // log.status == "1" ? Icon(Icons.arrow_upward,color: Colors.green):
-        // Icon(Icons.arrow_downward,color: Colors.red)
-        ],
-      ),
-      ),);
+
+
+
+                // log.status == "1" ? Icon(Icons.arrow_upward,color: Colors.green):
+                // Icon(Icons.arrow_downward,color: Colors.red)
+              ],
+            ),
+          )
+      //   Container(
+      //   height: 60,
+      //   decoration: BoxDecoration(
+      //     border: Border(
+      //       bottom: BorderSide(width: 1.0, color: Colors.grey.shade300),
+      //       // right: BorderSide(width: 1.0, color: Colors.grey.shade300),
+      //       // left: BorderSide(width: 1.0, color: Colors.grey.shade300),
+      //       // top: BorderSide(width: 1.0, color: Colors.grey.shade300),
+      //     )
+      //   ),
+      //   // padding: const EdgeInsets.only(top:20.0,bottom: 20.0),
+      //   child:
+      //
+      //     Row(
+      //     children: [
+      //   Expanded(flex:4,child:
+      //   Row(
+      //     children: [
+      //       Padding(
+      //         padding: const EdgeInsets.only(left:16.0),
+      //         child: Text(manageProduct.data.created_at),
+      //       ),
+      //     ],
+      //   )),
+      //   Expanded(
+      //     flex: 1,
+      //     child:
+      //
+      //     Row(
+      //       children: [
+      //         Expanded(flex:3,child: Padding(
+      //           padding: const EdgeInsets.only(right:8.0),
+      //           child: Text(manageProduct.data.change_qty.toString(),textAlign: TextAlign.right,),
+      //         )),
+      //         Expanded(
+      //           flex:2,
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               borderRadius: BorderRadius.circular(4),
+      //               color: manageProduct.data.status == "1" ?Colors.green:Colors.red,
+      //             ),
+      //
+      //             child: Icon(manageProduct.data.status == "1"?Icons.arrow_upward_rounded:Icons.arrow_downward_rounded,color: Colors.white,),
+      //           ),
+      //         ),
+      //
+      //
+      //       ],
+      //     ),
+      //   )
+      //   // log.status == "1" ? Icon(Icons.arrow_upward,color: Colors.green):
+      //   // Icon(Icons.arrow_downward,color: Colors.red)
+      //   ],
+      // ),
+      // ),
+      );
       productController.flag.value = false;
       manageList.addAll(tempList2);
       // productController.manageProductLog.value.data = null;
@@ -432,7 +546,9 @@ class _ManageProductPageState extends State<ManageProductPage> {
           list = new List();
           for (var log in productController.productLogs) {
             ind++;
-            list.add(Container(
+            list.add(
+                Container(
+              height: 60,
               decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(width: 1.0, color: Colors.grey.shade100),
@@ -440,7 +556,7 @@ class _ManageProductPageState extends State<ManageProductPage> {
                     // left: BorderSide(width: 1.0, color: Colors.grey.shade300),
                     // top: BorderSide(width: 1.0, color: Colors.grey.shade300),
                   )),
-              padding: EdgeInsets.only(top: 20, bottom: 20),
+              // padding: EdgeInsets.only(top: 20, bottom: 20),
               child: Row(
                 children: [
 
@@ -448,39 +564,36 @@ class _ManageProductPageState extends State<ManageProductPage> {
                       flex: 4,
                       child: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left:16.0),
-                            child: Text(log.created_at),
-                          ),
+                          Text(log.created_at),
                         ],
                       )),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Expanded(flex:3,child: Padding(
+                        Padding(
                           padding: const EdgeInsets.only(right:8.0),
                           child: Text(log.change_qty.toString(),textAlign: TextAlign.right,),
-                        )),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: log.status == "1" ? Colors.green : Colors.red,
-                            ),
-                            margin: EdgeInsets.only(right: 8.0),
-                            child: Icon(
-                              log.status == "1"
-                                  ? Icons.arrow_upward_rounded
-                                  : Icons.arrow_downward_rounded,
-                              color: Colors.white,
-                            ),
+                        ),
+                        Container(
+                          width: 35,
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: log.status == "1" ? Colors.green : Colors.red,
+                          ),
+                          child: Icon(
+                            log.status == "1"
+                                ? Icons.arrow_upward_rounded
+                                : Icons.arrow_downward_rounded,
+                            color: Colors.white,
                           ),
                         ),
+                        // SizedBox(width: 24.0,)
                       ],
                     ),
-                  )
+                  ),
                   // log.status == "1" ? Icon(Icons.arrow_upward,color: Colors.green):
                   // Icon(Icons.arrow_downward,color: Colors.red)
                 ],

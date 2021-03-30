@@ -11,6 +11,7 @@ INJECTED from /home/devme/AndroidStudioProjects/zana_storage github/android/app/
 MERGED from /home/devme/AndroidStudioProjects/zana_storage github/android/app/src/main/AndroidManifest.xml:1:1-65:12
 MERGED from [:multipart_request] /home/devme/AndroidStudioProjects/zana_storage github/build/multipart_request/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_boom_menu] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_boom_menu/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:sqflite] /home/devme/AndroidStudioProjects/zana_storage github/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_downloader] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_downloader/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_native_image] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_native_image/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:path_provider] /home/devme/AndroidStudioProjects/zana_storage github/build/path_provider/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
@@ -202,6 +203,8 @@ MERGED from [:multipart_request] /home/devme/AndroidStudioProjects/zana_storage 
 MERGED from [:multipart_request] /home/devme/AndroidStudioProjects/zana_storage github/build/multipart_request/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_boom_menu] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_boom_menu/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_boom_menu] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_boom_menu/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:sqflite] /home/devme/AndroidStudioProjects/zana_storage github/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:sqflite] /home/devme/AndroidStudioProjects/zana_storage github/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_downloader] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_downloader/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_downloader] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_downloader/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_native_image] /home/devme/AndroidStudioProjects/zana_storage github/build/flutter_native_image/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44

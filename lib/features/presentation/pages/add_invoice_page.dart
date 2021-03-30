@@ -637,59 +637,59 @@ class _AddInvoicePageState extends State<AddInvoicePage> with SingleTickerProvid
       itemTotalPrice = (double.parse(selectedProducts[i].product.price)*selectedProducts[i].quantity).toString()+" "+selectedProducts[i].product.symbol;
       else itemTotalPrice="0 "+selectedProducts[i].product.symbol;
       list.add(
-        ListTile(
-          title: Container(
-            height: 200,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                      width: 180,
-                      height: 180,
-                      child:selectedProducts[i].product.image !=null? Image.network(selectedProducts[i].product.image)
-                  :Icon(Icons.image_search,size: 30,)),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Container(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex:1,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 11,
-                                ),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(selectedProducts[i].product.title,)),
-                              ],
-                            )),
-                        Expanded(
-                          flex:1,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 1, child: Icon(Icons.money)),
-                                Expanded(
-                                    flex: 5,
-                                    child: Text(selectedProducts[i].product.price +
-                                        " " +
-                                        selectedProducts[i].product.symbol)),
-                              ],
-                            )),
-                        Expanded(
-                          flex:1,
-                            child:
-                            Row(
-                               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(flex:1,
+          ListTile(
+            title: Container(
+              height: 200,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        width: 80,
+                        height: 80,
+                        child:selectedProducts[i].product.image !=null? Image.network(selectedProducts[i].product.image)
+                            :Icon(Icons.image_search,size: 30,)),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              flex:1,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 11,
+                                  ),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(selectedProducts[i].product.title,)),
+                                ],
+                              )),
+                          // Expanded(
+                          //   flex:1,
+                          //     child: Row(
+                          //       children: [
+                          //
+                          //
+                          //         Expanded(
+                          //             flex: 5,
+                          //             child: Text(selectedProducts[i].product.price +
+                          //                 " " +
+                          //                 selectedProducts[i].product.symbol)),
+                          //       ],
+                          //     )),
+                          Expanded(
+                              flex:1,
+                              child:
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                // crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(flex:1,
                                     child:
                                     Container(
                                       height: double.infinity,
@@ -720,88 +720,256 @@ class _AddInvoicePageState extends State<AddInvoicePage> with SingleTickerProvid
                                             });
                                           }),
                                     ),
-                                ),
+                                  ),
 
-                               Expanded(flex:3,child:  selectedProducts[i].blink?FadeTransition(
-                                 opacity: _animationController,
-                                 child: Text(
-                                     selectedProducts[i].product.quantity ==0?"0/0":selectedProducts[i].quantity.toString()+"/"+selectedProducts[i].product.quantity.toString(),
-                                     textAlign: TextAlign.center,
-                                 ),
-                               ): Text(
-                                   selectedProducts[i].product.quantity ==0?"0/0": selectedProducts[i].quantity.toString()+"/"+selectedProducts[i].product.quantity.toString(),
-                                   textAlign: TextAlign.center,
-                               ),),
-                                Expanded(
-                                  flex: 1,
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      setState(() {
-                                        if (selectedProducts[i].product.quantity >
-                                            selectedProducts[i].quantity) {
-                                          selectedProducts[i].quantity++;
-                                          selectedProducts[i].totalPrice += double.parse(
-                                              selectedProducts[i].product.price);
-                                        } else
-                                          selectedProducts[i].isMax = true;
-                                      });
-                                    },
-                                    child: Container(
-                                      height: double.infinity,
-                                      decoration: new BoxDecoration(
-                                        color: Colors.orange.shade100,
-                                        shape: BoxShape.circle,
+                                  Expanded(flex:3,child:  selectedProducts[i].blink?FadeTransition(
+                                    opacity: _animationController,
+                                    child: Text(
+                                      selectedProducts[i].product.quantity ==0?"0/0":selectedProducts[i].quantity.toString()+"/"+selectedProducts[i].product.quantity.toString(),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ): Text(
+                                    selectedProducts[i].product.quantity ==0?"0/0": selectedProducts[i].quantity.toString()+"/"+selectedProducts[i].product.quantity.toString(),
+                                    textAlign: TextAlign.center,
+                                  ),),
+                                  Expanded(
+                                    flex: 1,
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          if (selectedProducts[i].product.quantity >
+                                              selectedProducts[i].quantity) {
+                                            selectedProducts[i].quantity++;
+                                            selectedProducts[i].totalPrice += double.parse(
+                                                selectedProducts[i].product.price);
+                                          } else
+                                            selectedProducts[i].isMax = true;
+                                        });
+                                      },
+                                      child: Container(
+                                        height: double.infinity,
+                                        decoration: new BoxDecoration(
+                                          color: Colors.orange.shade100,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(Icons.add),
                                       ),
-                                      child: Icon(Icons.add),
                                     ),
                                   ),
-                                ),
-                                Expanded(flex:1,child: selectedProducts[i].isMax
-                                    ? Text(
-                                  "Max",
-                                  style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 13),
-                                  textAlign: TextAlign.end,
+                                  Expanded(flex:1,child: selectedProducts[i].isMax
+                                      ? Text(
+                                    "Max",
+                                    style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 13),
+                                    textAlign: TextAlign.end,
 
-                                )
-                                    : Container())
-                              ],
-                            )
-                        ),
-                        Expanded(
-                          flex: 1,
-                            child: Row(children: [
+                                  )
+                                      : Container())
+                                ],
+                              )
+                          ),
                           Expanded(
-                              flex: 1, child: Icon(Icons.add_chart)),
-                          Expanded(
-                              flex: 5,
-                              child: Text(itemTotalPrice)),
-                              Expanded(flex:1,child: IconButton(icon: Icon(Icons.wrap_text,),onPressed: (){
-                                Get.to(ManageProductPage(),arguments: selectedProducts[i].product,binding: ProductBiding()).then((value) {
-                                });
-                              },))
-                        ],))
-                      ],
+                              flex: 1,
+                              child: Row(children: [
+                                // Expanded(
+                                //     flex: 1, child: Icon(Icons.add_chart)),
+                                Expanded(
+                                    flex: 5,
+                                    child: Text(itemTotalPrice,style:TextStyle(fontSize: 15,fontWeight: FontWeight.w800))),
+                                // Expanded(flex:1,child: IconButton(icon: Icon(Icons.wrap_text,),onPressed: (){
+                                //   Get.to(ManageProductPage(),arguments: selectedProducts[i].product,binding: ProductBiding()).then((value) {
+                                //   });
+                                // },))
+                              ],))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                // Expanded(
-                //   flex: 1,
-                //   child: Column(
-                //     children: [
-                //       IconButton(icon: Icon(Icons.cancel), onPressed: (){
-                //         setState(() {
-                //            selectedProducts.removeAt(i);
-                //         });
-                //       }),
-                //     ],
-                //   ),
-                // )
-              ],
+                  // Expanded(
+                  //   flex: 1,
+                  //   child: Column(
+                  //     children: [
+                  //       IconButton(icon: Icon(Icons.cancel), onPressed: (){
+                  //         setState(() {
+                  //            selectedProducts.removeAt(i);
+                  //         });
+                  //       }),
+                  //     ],
+                  //   ),
+                  // )
+                ],
+              ),
             ),
-          ),
 
-        )
-          );
+          )
+      );
+
+
+      // list.add(
+      //   ListTile(
+      //     title: Container(
+      //       height: 200,
+      //       child: Row(
+      //         children: [
+      //           Expanded(
+      //             flex: 3,
+      //             child: Container(
+      //                 width: 180,
+      //                 height: 180,
+      //                 child:selectedProducts[i].product.image !=null? Image.network(selectedProducts[i].product.image)
+      //             :Icon(Icons.image_search,size: 30,)),
+      //           ),
+      //           Expanded(
+      //             flex: 4,
+      //             child: Container(
+      //               padding: EdgeInsets.all(16),
+      //               child: Column(
+      //                 crossAxisAlignment: CrossAxisAlignment.start,
+      //                 children: [
+      //                   Expanded(
+      //                     flex:1,
+      //                       child: Row(
+      //                         children: [
+      //                           SizedBox(
+      //                             width: 11,
+      //                           ),
+      //                           Expanded(
+      //                               flex: 1,
+      //                               child: Text(selectedProducts[i].product.title,)),
+      //                         ],
+      //                       )),
+      //                   Expanded(
+      //                     flex:1,
+      //                       child: Row(
+      //                         children: [
+      //                           Expanded(
+      //                               flex: 1, child: Icon(Icons.money)),
+      //                           Expanded(
+      //                               flex: 5,
+      //                               child: Text(selectedProducts[i].product.price +
+      //                                   " " +
+      //                                   selectedProducts[i].product.symbol)),
+      //                         ],
+      //                       )),
+      //                   Expanded(
+      //                     flex:1,
+      //                       child:
+      //                       Row(
+      //                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //                         // crossAxisAlignment: CrossAxisAlignment.center,
+      //                         children: [
+      //                           Expanded(flex:1,
+      //                               child:
+      //                               Container(
+      //                                 height: double.infinity,
+      //                                 decoration: new BoxDecoration(
+      //                                   color: Colors.orange.shade100,
+      //                                   shape: BoxShape.circle,
+      //                                 ),
+      //                                 child: selectedProducts[i].quantity > 1
+      //                                     ? GestureDetector(
+      //                                     child:
+      //                                     Icon(Icons.remove,),
+      //                                     onTap: () {
+      //                                       setState(() {
+      //                                         selectedProducts[i].quantity--;
+      //                                         selectedProducts[i].totalPrice -= double.parse(
+      //                                             selectedProducts[i].product.price);
+      //                                         selectedProducts[i].isMax = false;
+      //                                       });
+      //                                     })
+      //                                     : GestureDetector(
+      //                                     child: Icon(Icons.delete_forever),
+      //                                     onTap: () {
+      //                                       setState(() {
+      //                                         selectedProducts[i].isMax = false;
+      //                                         selectedProducts[i].totalPrice -= double.parse(
+      //                                             selectedProducts[i].product.price);
+      //                                         selectedProducts.removeAt(i);
+      //                                       });
+      //                                     }),
+      //                               ),
+      //                           ),
+      //
+      //                          Expanded(flex:3,child:  selectedProducts[i].blink?FadeTransition(
+      //                            opacity: _animationController,
+      //                            child: Text(
+      //                                selectedProducts[i].product.quantity ==0?"0/0":selectedProducts[i].quantity.toString()+"/"+selectedProducts[i].product.quantity.toString(),
+      //                                textAlign: TextAlign.center,
+      //                            ),
+      //                          ): Text(
+      //                              selectedProducts[i].product.quantity ==0?"0/0": selectedProducts[i].quantity.toString()+"/"+selectedProducts[i].product.quantity.toString(),
+      //                              textAlign: TextAlign.center,
+      //                          ),),
+      //                           Expanded(
+      //                             flex: 1,
+      //                             child: GestureDetector(
+      //                               onTap: (){
+      //                                 setState(() {
+      //                                   if (selectedProducts[i].product.quantity >
+      //                                       selectedProducts[i].quantity) {
+      //                                     selectedProducts[i].quantity++;
+      //                                     selectedProducts[i].totalPrice += double.parse(
+      //                                         selectedProducts[i].product.price);
+      //                                   } else
+      //                                     selectedProducts[i].isMax = true;
+      //                                 });
+      //                               },
+      //                               child: Container(
+      //                                 height: double.infinity,
+      //                                 decoration: new BoxDecoration(
+      //                                   color: Colors.orange.shade100,
+      //                                   shape: BoxShape.circle,
+      //                                 ),
+      //                                 child: Icon(Icons.add),
+      //                               ),
+      //                             ),
+      //                           ),
+      //                           Expanded(flex:1,child: selectedProducts[i].isMax
+      //                               ? Text(
+      //                             "Max",
+      //                             style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 13),
+      //                             textAlign: TextAlign.end,
+      //
+      //                           )
+      //                               : Container())
+      //                         ],
+      //                       )
+      //                   ),
+      //                   Expanded(
+      //                     flex: 1,
+      //                       child: Row(children: [
+      //                     Expanded(
+      //                         flex: 1, child: Icon(Icons.add_chart)),
+      //                     Expanded(
+      //                         flex: 5,
+      //                         child: Text(itemTotalPrice)),
+      //                         // Expanded(flex:1,child: IconButton(icon: Icon(Icons.wrap_text,),onPressed: (){
+      //                         //   Get.to(ManageProductPage(),arguments: selectedProducts[i].product,binding: ProductBiding()).then((value) {
+      //                         //   });
+      //                         // },))
+      //                   ],))
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //           // Expanded(
+      //           //   flex: 1,
+      //           //   child: Column(
+      //           //     children: [
+      //           //       IconButton(icon: Icon(Icons.cancel), onPressed: (){
+      //           //         setState(() {
+      //           //            selectedProducts.removeAt(i);
+      //           //         });
+      //           //       }),
+      //           //     ],
+      //           //   ),
+      //           // )
+      //         ],
+      //       ),
+      //     ),
+      //
+      //   )
+      //     );
       if(i+1 != selectedProducts.length)
         list.add(Container(height: 1,color: Colors.grey.shade200,));
       selectedProducts[i].blink = false;

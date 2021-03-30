@@ -322,7 +322,7 @@ class _HomePageState extends State<HomePage> {
             Row(children: [
               Container(
                 height: 60,
-                padding: EdgeInsets.only(left: 16),
+                padding: EdgeInsets.only(left:16.0,right:16.0),
                 child: Center(child: Text("Menu".tr,style: TextStyle(fontWeight: FontWeight.bold),)),
               ),
             ],),
@@ -358,7 +358,7 @@ class _HomePageState extends State<HomePage> {
         Row(children: [
           Container(
             height: 60,
-            padding: EdgeInsets.only(left: 16),
+            padding: EdgeInsets.only(left: 16.0,right: 16.0),
             child: Center(child: Text("Summary".tr,style: TextStyle(fontWeight: FontWeight.bold),)),
           ),
         ],),

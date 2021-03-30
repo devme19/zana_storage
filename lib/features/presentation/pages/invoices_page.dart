@@ -18,12 +18,13 @@ class _InvoicesPageState extends State<InvoicesPage> {
   InvoiceController invoiceController = Get.put(InvoiceController());
   int pageIndex = 1;
   ScrollController _controller = ScrollController();
+  String param,filter="";
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
       if(invoiceController.invoiceTable.value.invoices.length!=0)
         pageIndex = int.parse(invoiceController.invoiceTable.value.page)+1;
-      invoiceController.getInvoices(pageIndex,pageSize);
+      invoiceController.getInvoices(param+filter);
       // setState(() {
       //   message = "reach the bottom";
       // });
@@ -40,12 +41,16 @@ class _InvoicesPageState extends State<InvoicesPage> {
   @override
   void initState() {
     super.initState();
+    param = "page=$pageIndex&pagesize=$pageSize";
+    if(Get.arguments != null)
+      filter = "&customer_id="+Get.arguments.toString();
     _controller.addListener(_scrollListener);
-     invoiceController.getInvoices(pageIndex,pageSize);
+     invoiceController.getInvoices(param+filter);
   }
   _onPressConnectionError(bool refresh){
     pageIndex = 1;
-    invoiceController.getInvoices(pageIndex,pageSize);
+    param = "page=$pageIndex&pagesize=$pageSize";
+    invoiceController.getInvoices(param+filter);
     setState(() {
     });
   }
@@ -58,8 +63,9 @@ class _InvoicesPageState extends State<InvoicesPage> {
           invoiceController.invoices.clear();
           Get.toNamed(ZanaStorageRoutes.addInvoicePage).then((value) {
             pageIndex = 1;
+            param = "page=$pageIndex&pagesize=$pageSize";
             // // invoiceController.invoices.clear();
-            invoiceController.getInvoices(pageIndex,pageSize);
+            invoiceController.getInvoices(param+filter);
           });
         },
         child: Icon(Icons.add),
@@ -83,7 +89,7 @@ class _InvoicesPageState extends State<InvoicesPage> {
             )):
             invoiceController.getInvoicesState.value == StateStatus.ERROR?
                 ConnectionError(parentAction: _onPressConnectionError,)
-                :Container()
+                :Center(child: Text("There is no item"),)
         ),
       ),
 
@@ -134,7 +140,8 @@ class _InvoicesPageState extends State<InvoicesPage> {
                         Get.toNamed(ZanaStorageRoutes.invoiceDetailPage,arguments: invoiceController.invoices[index].id).then((value) {
                           pageIndex = 1;
                           // // invoiceController.invoices.clear();
-                          invoiceController.getInvoices(pageIndex,pageSize);
+                          param = "page=$pageIndex&pagesize=$pageSize";
+                          invoiceController.getInvoices(param+filter);
                         });
                         invoiceController.invoices.clear();
                       },
@@ -234,6 +241,7 @@ class _InvoicesPageState extends State<InvoicesPage> {
   Future<void> refresh() async{
     pageIndex = 1;
     invoiceController.invoices.clear();
-    return invoiceController.getInvoices(pageIndex,pageSize);
+    param = "page=$pageIndex&pagesize=$pageSize";
+    return invoiceController.getInvoices(param+filter);
   }
 }

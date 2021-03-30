@@ -151,29 +151,58 @@ class _CustomersState extends State<Customers> {
                                         padding: const EdgeInsets.all(8.0),
                                         child:
                                           InkWell(
+                                            onTap: widget.isCustomerPage?(){
+                                              Get.toNamed(ZanaStorageRoutes.customerDetailPage,arguments: customerController.customers[index]).then((value) {
+                                                pageIndex = 1;
+                                                customerController.customers.clear();
+                                                parameters = "page=$pageIndex&pagesize=$pageSize";
+                                                customerController.getCustomers(parameters);
+                                              });
+                                            }:(){
+                                              widget.parentAction(customerController.customers[index]);
+                                              Get.back();
+                                            },
                                             child: Container(
                                               height: 80,
                                               child: 
                                               Row(
                                                 children: [
                                                   Expanded(
+                                                    flex: 1,
                                                     child: Column(
                                                       children: [
                                                         Expanded(child: Row(
                                                           children: [
-                                                            Text(customerController.customers[index].name+" "+ customerController.customers[index].family,style: TextStyle(fontWeight: FontWeight.bold),),
+                                                            Expanded(child: Text(customerController.customers[index].name+" "+ customerController.customers[index].family,style: TextStyle(fontWeight: FontWeight.bold),)),
                                                           ],
                                                         )),
                                                         Expanded(child: widget.isCustomerPage? Row(
                                                           children: [
-                                                            Text(customerController.customers[index].mobile,textAlign: TextAlign.start,),
+                                                            Expanded(child: Text(customerController.customers[index].mobile,textAlign: TextAlign.start,)),
                                                           ],
                                                         ):Container()),
                                                       ],
                                                     ),
                                                   ),
-                                                  Expanded(child: Column(
-                                                      children: createDebit(index)))
+                                                  Expanded(
+                                                    flex: 2,
+                                                      child:
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                            children: createDebit(index)),
+                                                      ),
+                                                      Column(
+                                                        children: [
+                                                          IconButton(icon: Icon(Icons.wysiwyg_outlined,size: 25,color: Colors.grey,), onPressed: (){
+                                                            Get.toNamed(ZanaStorageRoutes.invoicesPage,arguments: customerController.customers[index].id);
+                                                          }),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ))
                                                 ],
                                               ),
                                             ),
@@ -246,10 +275,42 @@ class _CustomersState extends State<Customers> {
       );
   }
   List<Widget> createDebit(int index){
-    List<Widget> list = new List();
+    List<Widget> row = new List();
+    List<Widget> col = new List();
+    // for(var item in customerController.customers[index].debit)
+    //   row.add(Expanded(child: Text(item.price.toString()+" " +item.symbol)));
+    int i = 0;
     for(var item in customerController.customers[index].debit)
-      list.add(Expanded(child: Text(item.price.toString() +item.symbol)));
-    return list;
+     {
+       i++;
+       row.add(Expanded(
+         child: Row(
+           mainAxisAlignment: MainAxisAlignment.end,
+           children: [
+             Expanded(child: Text(item.price.toString()+" " +item.symbol,textAlign: TextAlign.end,)),
+           ],
+         ),
+       ));
+       if(i%2 == 0) {
+         col.add(
+             Expanded(
+           child: Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             children: row,),
+         ));
+        row = new List();
+      }
+
+    }
+    if(customerController.customers[index].debit.length%2 !=0) {
+      col.add(Expanded(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: row,
+      )));
+      col.add(Expanded(child: Container()));
+    }
+    return col;
   }
   clearFilter() {
     searchController.clear();

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:either_type/src/either.dart';
@@ -174,6 +175,11 @@ class ZanaStorageRepositoryImpl implements ZanaStorageRepository{
   Future<Either<Failure, bool>> saveLocale(bool isUs) async{
     // TODO: implement saveLocale
     try {
+      String lang = "ku";
+      if(isUs)
+        lang = "en";
+      String body = jsonEncode({'lang': lang});
+      await remoteDataSource.post<bool,Null>(body, "staff/lang");
       return Right(localDataSource.saveLocale(isUs));
     }
     on CacheException catch (e) {

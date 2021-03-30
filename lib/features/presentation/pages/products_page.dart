@@ -140,27 +140,121 @@ class _ProductsPageState extends State<ProductsPage>{
                   // padding: EdgeInsets.all(8),
                   margin: EdgeInsets.only(left: 13,right: 13),
                   child:productController.products.length!=0?
-                  SingleChildScrollView(
-                    controller: _controller,
-                      child:
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0,right: 8.0),
-                            child: createListCard( productController.products),
+                  Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          controller: _controller,
+                          itemCount: productController.products.length,itemBuilder: (context, index){
+                          return InkWell(
+                            onTap: (){
+                              setState(() {
+                                productController.products[index].isExpanded=!productController.products[index].isExpanded;
+                              });
+                            },
+                            child: (
+                                Card(
+                                  child:
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            flex:2,
+                                            child: Container(
+                                              height:150,
+                                              margin: EdgeInsets.all(8.0),
+                                              child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(0),
+                                                  child:productController.products[index].image !=null? Image.network(productController.products[index].image,fit: BoxFit.cover,):Container(
+                                                    child: Icon(Icons.image_search,size: 30,),
+                                                  )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex:3,
+                                            child: Row(
+                                              children: [
+                                                Expanded(child: Text(productController.products[index].title)),
+                                                Expanded(
+                                                  child: ExpandIcon(
+                                                    isExpanded: productController.products[index].isExpanded,
+                                                    color: Colors.grey,
+                                                    expandedColor: Colors.grey,
+                                                    onPressed: (bool isExpanded) {
+                                                      setState(() {
+                                                        productController.products[index].isExpanded = !isExpanded;
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      productController.products[index].isExpanded?
+                                      Column(
+                                        children: [
+                                          row2(true, 'Sku'.tr, productController.products[index].sku==null?"":productController.products[index].sku),
+                                          row2(false, 'Price'.tr, productController.products[index].price+" "+productController.products[index].symbol),
+                                          row2(true, 'Quantity'.tr, productController.products[index].quantity.toString()),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                RaisedButton(
+                                                    color: Colors.green,
+                                                    shape:RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(borderRadius),
+                                                      // side: BorderSide(color: Colors.yellowAccent)
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(16.0),
+                                                      child:
+                                                      AutoSizeText('Manage'.tr,maxLines: 1,style: TextStyle(color: Colors.white),),
+                                                    ),onPressed: ()=>Get.toNamed(ZanaStorageRoutes.manageProductPage,arguments: productController.products[index])),
+                                                RaisedButton(
+                                                    color: Colors.green,
+                                                    shape:RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(borderRadius),
+                                                      // side: BorderSide(color: Colors.yellowAccent)
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(16.0),
+                                                      child:
+                                                      AutoSizeText('Detail'.tr,maxLines: 1,style: TextStyle(color: Colors.white),),
+                                                    ),onPressed: (){
+                                                  Get.toNamed(ZanaStorageRoutes.detailProductPage,arguments: productController.products[index].id).then((value) {
+                                                    refresh();
+                                                  });
+                                                }
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ):Container()
+                                    ],
+                                  ),
+                                )),
+                          );
+                        },),
+                      ),
+                      // createListCard( productController.products),
+                      productController.getProductsState.value == StateStatus.LOADING?
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          child: SpinKitDualRing(
+                            color: Colors.blue.shade200,
+                            size: 25,
                           ),
-                          productController.getProductsState.value == StateStatus.LOADING?
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Container(
-                              child: SpinKitDualRing(
-                                color: Colors.blue.shade200,
-                                size: 25,
-                              ),
-                            ),
-                          ):Container()
-                        ],
-                      ), ):
+                        ),
+                      ):Container()
+                    ],
+                  ):
                   productController.getProductsState.value == StateStatus.LOADING?
                   Center(child: SpinKitDualRing(
                     color: Colors.blue.shade200,
@@ -180,7 +274,90 @@ class _ProductsPageState extends State<ProductsPage>{
     );
   }
   Widget createListCard(RxList products){
-
+    // List<Widget> list = new List();
+    //
+    // for(var item in products)
+    //   list.add(InkWell(
+    //     onTap: (){
+    //       setState(() {
+    //         item.isExpanded = !item.isExpanded;
+    //       });
+    //     },
+    //     child: (
+    //         Card(
+    //       child:
+    //       Column(
+    //         children: [
+    //           Row(
+    //             children: [
+    //               Container(
+    //                 height:150,
+    //                 child: ClipRRect(
+    //                     borderRadius: BorderRadius.circular(0),
+    //                     child:item.image !=null? Image.network(item.image,fit: BoxFit.cover,):Container(
+    //                       child: Icon(Icons.image_search,size: 30,),
+    //                     )),
+    //               ),
+    //               Text(item.title),
+    //               ExpandIcon(
+    //                 isExpanded: item.isExpanded,
+    //                 color: Colors.grey,
+    //                 expandedColor: Colors.grey,
+    //                 onPressed: (bool isExpanded) {
+    //                   setState(() {
+    //                     item.isExpanded = !isExpanded;
+    //                   });
+    //                 },
+    //               ),
+    //             ],
+    //           ),
+    //           item.isExpanded?
+    //           Column(
+    //             children: [
+    //           row2(true, 'Sku'.tr, item.sku==null?"":item.sku),
+    //           row2(false, 'Price'.tr, item.price+" "+item.symbol),
+    //           row2(true, 'Quantity'.tr, item.quantity.toString()),
+    //           Padding(
+    //             padding: const EdgeInsets.all(8.0),
+    //             child: Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: [
+    //                 RaisedButton(
+    //                     color: Colors.green,
+    //                     shape:RoundedRectangleBorder(
+    //                       borderRadius: BorderRadius.circular(borderRadius),
+    //                       // side: BorderSide(color: Colors.yellowAccent)
+    //                     ),
+    //                     child: Padding(
+    //                       padding: const EdgeInsets.all(16.0),
+    //                       child:
+    //                       AutoSizeText('Manage'.tr,maxLines: 1,style: TextStyle(color: Colors.white),),
+    //                     ),onPressed: ()=>Get.toNamed(ZanaStorageRoutes.manageProductPage,arguments: item)),
+    //                 RaisedButton(
+    //                     color: Colors.green,
+    //                     shape:RoundedRectangleBorder(
+    //                       borderRadius: BorderRadius.circular(borderRadius),
+    //                       // side: BorderSide(color: Colors.yellowAccent)
+    //                     ),
+    //                     child: Padding(
+    //                       padding: const EdgeInsets.all(16.0),
+    //                       child:
+    //                       AutoSizeText('Detail'.tr,maxLines: 1,style: TextStyle(color: Colors.white),),
+    //                     ),onPressed: (){
+    //                   Get.toNamed(ZanaStorageRoutes.detailProductPage,arguments: item.id).then((value) {
+    //                     refresh();
+    //                   });
+    //                 }
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //             ],
+    //           ):Container()
+    //         ],
+    //       ),
+    //     )),
+    //   ));
     return
       ExpansionPanelList(
         elevation:1,

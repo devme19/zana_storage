@@ -45,8 +45,9 @@ class CustomerController extends GetxController{
       updateCustomerState.value = false;
       if(response.isRight){
         customer.value = response.right;
-       MyAlertDialog.show(["Successfully edited".tr], true);
+       // MyAlertDialog.show(["Successfully edited".tr], true);
         parentAction(false);
+        Get.back();
       }
       else if(response.isLeft){
         errorAction(response.left);
