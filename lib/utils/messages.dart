@@ -111,7 +111,7 @@ class Messages extends Translations{
       'Mobile': 'ژمارە ی مۆبایل',
       'Actions': 'دەستپێک',
       'Language': 'زمان',
-      'English':'ئنگلیسی',
+      'English':'English',
       'Persian':'کوردی',
       'Detail': 'پێکهاتە',
       'Mobile Number': 'ژمارە ی مۆبایل',
